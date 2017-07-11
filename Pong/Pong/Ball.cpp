@@ -5,12 +5,11 @@ const float PI = 3.1415926535897f;
 Ball::Ball(float xPos, float yPos)
 {
 	std::srand((unsigned int)time(NULL));
-	radius = 10.f;
-	speed = 100.f;
-	resetAngle();
+	radius = 15.f;
+	speed = 300.f;
+	resetBall(xPos, yPos);
 	ball.setRadius(radius);
 	ball.setOrigin(radius, radius);
-	ball.setPosition(xPos, yPos);
 }
 
 Ball::~Ball()
@@ -19,17 +18,19 @@ Ball::~Ball()
 
 void Ball::draw(sf::RenderWindow& window)
 {
-	window.draw(this->ball);
+	window.draw(ball);
 }
 
-void Ball::resetAngle()
+void Ball::resetBall(float xPos, float yPos)
 {
 	// Choose a random angle between 0 and 360 degrees
 	// The angle needs to be in radians. The forumula to
 	// convert from degrees to radians is (degrees * pi)/180
 	do {
 		this->ballAngle = (std::rand() % 360 * PI) / 180;
-	} while (this->ballAngle == 0);
+	} while (std::abs(std::cos(ballAngle)) < .8);
+	std::cout << ballAngle << std::endl;
+	ball.setPosition(xPos, yPos);
 }
 
 void Ball::updatePosition(float deltaTime, float height, float width)
@@ -48,5 +49,13 @@ void Ball::updatePosition(float deltaTime, float height, float width)
 	if (ball.getPosition().y - radius < 0) {
 		ballAngle = -ballAngle;
 		ball.setPosition(ball.getPosition().x, radius);
+	}
+	//past left side of window right player scores
+	if (ball.getPosition().x + radius < 0) {
+		resetBall(width / 2, height / 2);
+	}
+	//past right side of window left player scores
+	if (ball.getPosition().x - radius > width) {
+		resetBall(width / 2, height / 2);
 	}
 }
