@@ -28,12 +28,12 @@ void Ball::resetBall(float xPos, float yPos)
 	// convert from degrees to radians is (degrees * pi)/180
 	do {
 		this->ballAngle = (std::rand() % 360 * PI) / 180;
-	} while (std::abs(std::cos(ballAngle)) < .8);
+	} while (std::abs(std::cos(ballAngle)) < .5);
 	std::cout << ballAngle << std::endl;
 	ball.setPosition(xPos, yPos);
 }
 
-void Ball::updatePosition(float deltaTime, float height, float width)
+void Ball::updatePosition(float deltaTime, float windowHeight)
 {
 	// find the total distance traveled and move the ball
 	float dist = speed * deltaTime;
@@ -41,21 +41,23 @@ void Ball::updatePosition(float deltaTime, float height, float width)
 
 	//check for ball collision
 	//bottom of window
-	if (ball.getPosition().y + radius > height) {
+	if (ball.getPosition().y + radius > windowHeight) {
 		ballAngle = -ballAngle;
-		ball.setPosition(ball.getPosition().x, height - radius);
+		ball.setPosition(ball.getPosition().x, windowHeight - radius);
 	}
 	//top of window
 	if (ball.getPosition().y - radius < 0) {
 		ballAngle = -ballAngle;
 		ball.setPosition(ball.getPosition().x, radius);
 	}
-	//past left side of window right player scores
-	if (ball.getPosition().x + radius < 0) {
-		resetBall(width / 2, height / 2);
-	}
-	//past right side of window left player scores
-	if (ball.getPosition().x - radius > width) {
-		resetBall(width / 2, height / 2);
-	}
+}
+
+bool Ball::isOutLeft()
+{
+	return ball.getPosition().x + radius < 0;
+}
+
+bool Ball::isOutRight(int windowWidth)
+{
+	return ball.getPosition().x - radius > windowWidth;
 }

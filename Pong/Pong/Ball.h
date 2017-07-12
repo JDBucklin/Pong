@@ -8,7 +8,9 @@ public:
 	~Ball();
 	void draw(sf::RenderWindow& window);
 	void resetBall(float xPos, float yPos);
-	void updatePosition(float deltaTime, float width, float height);
+	void updatePosition(float deltaTime, float windowHeight);
+	bool isOutLeft();
+	bool isOutRight(int windowWidth);
 private:
 	sf::CircleShape ball;
 	float radius;
