@@ -4,7 +4,9 @@
 
 Game::Game() :
 	window(sf::VideoMode(windowWidth, windowHeight), "Pong"),
-	ball(windowWidth/2, windowHeight/2)
+	ball(windowWidth / 2, windowHeight / 2),
+	leftPaddle(25, windowHeight/2),
+	rightPaddle(775, windowHeight/2)
 {}
 
 Game::~Game()
@@ -44,13 +46,17 @@ void Game::play()
 		// move the objects and increase score if player scored
 		totalTime += deltaTime;
 		if (totalTime >= switchTime) {
-			ball.updatePosition(totalTime, windowHeight);
+			ball.updatePosition(totalTime, windowHeight, leftPaddle, rightPaddle);
+			leftPaddle.update(totalTime, windowHeight);
+			rightPaddle.update(totalTime, windowHeight);
 			checkIfScored();
 			totalTime -= switchTime;
 		}
 		
 		// draw objects
 		window.clear();
+		leftPaddle.draw(window);
+		rightPaddle.draw(window);
 		ball.draw(window);
 		window.display();
 	}

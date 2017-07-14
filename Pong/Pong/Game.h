@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Ball.h"
 #include "Scoreboard.h"
+#include "Paddle.h"
 
 class Game
 {
@@ -16,8 +17,11 @@ private:
 	int windowWidth = 800;
 	float switchTime = 1.f / 60.f;
 
+	//Game objects
 	sf::RenderWindow window;
 	Ball ball;
 	Scoreboard scoreBoard;
+	Paddle leftPaddle;
+	Paddle rightPaddle;
 };
 

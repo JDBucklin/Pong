@@ -13,8 +13,7 @@ Ball::Ball(float xPos, float yPos)
 }
 
 Ball::~Ball()
-{
-}
+{}
 
 void Ball::draw(sf::RenderWindow& window)
 {
@@ -33,13 +32,13 @@ void Ball::resetBall(float xPos, float yPos)
 	ball.setPosition(xPos, yPos);
 }
 
-void Ball::updatePosition(float deltaTime, float windowHeight)
+void Ball::updatePosition(float deltaTime, float windowHeight, Paddle& leftPaddle, Paddle& rightPaddle)
 {
 	// find the total distance traveled and move the ball
 	float dist = speed * deltaTime;
 	ball.move(std::cos(ballAngle) * dist, std::sin(ballAngle) * dist);
 
-	//check for ball collision
+	//check for ball collision with walls
 	//bottom of window
 	if (ball.getPosition().y + radius > windowHeight) {
 		ballAngle = -ballAngle;
@@ -50,6 +49,24 @@ void Ball::updatePosition(float deltaTime, float windowHeight)
 		ballAngle = -ballAngle;
 		ball.setPosition(ball.getPosition().x, radius);
 	}
+
+	// check for collision with paddles
+	if (paddleCollision(leftPaddle)) {
+		ballAngle = PI - ballAngle;
+		ball.setPosition(leftPaddle.getPosition().x + leftPaddle.getSize().x/2 + radius, ball.getPosition().y);
+	} else if (paddleCollision(rightPaddle)) {
+		ballAngle = PI - ballAngle;
+		ball.setPosition(rightPaddle.getPosition().x - rightPaddle.getSize().x / 2 - radius, ball.getPosition().y);
+	}
+}
+
+bool Ball::paddleCollision(Paddle& paddle)
+{
+	if (paddle.getSize().x / 2 + this->radius < std::abs(paddle.getPosition().x - ball.getPosition().x) ||
+		paddle.getSize().y / 2 + this->radius < std::abs(paddle.getPosition().y - ball.getPosition().y)) {
+		return false;
+	}
+	return true;
 }
 
 bool Ball::isOutLeft()
