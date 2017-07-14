@@ -16,7 +16,8 @@ public:
 private:
 	sf::CircleShape ball;
 	float radius;
-	float speed;
+	float currentSpeed;
+	float defaultSpeed;
 	float ballAngle;
 };
 

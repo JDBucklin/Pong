@@ -6,7 +6,8 @@ Ball::Ball(float xPos, float yPos)
 {
 	std::srand((unsigned int)time(NULL));
 	radius = 15.f;
-	speed = 300.f;
+	defaultSpeed = 300.f;
+	currentSpeed = defaultSpeed;
 	resetBall(xPos, yPos);
 	ball.setRadius(radius);
 	ball.setOrigin(radius, radius);
@@ -30,12 +31,13 @@ void Ball::resetBall(float xPos, float yPos)
 	} while (std::abs(std::cos(ballAngle)) < .5);
 	std::cout << ballAngle << std::endl;
 	ball.setPosition(xPos, yPos);
+	currentSpeed = defaultSpeed;
 }
 
 void Ball::updatePosition(float deltaTime, float windowHeight, Paddle& leftPaddle, Paddle& rightPaddle)
 {
 	// find the total distance traveled and move the ball
-	float dist = speed * deltaTime;
+	float dist = currentSpeed * deltaTime;
 	ball.move(std::cos(ballAngle) * dist, std::sin(ballAngle) * dist);
 
 	//check for ball collision with walls
@@ -54,9 +56,11 @@ void Ball::updatePosition(float deltaTime, float windowHeight, Paddle& leftPaddl
 	if (paddleCollision(leftPaddle)) {
 		ballAngle = PI - ballAngle;
 		ball.setPosition(leftPaddle.getPosition().x + leftPaddle.getSize().x/2 + radius, ball.getPosition().y);
+		currentSpeed += 75;
 	} else if (paddleCollision(rightPaddle)) {
 		ballAngle = PI - ballAngle;
 		ball.setPosition(rightPaddle.getPosition().x - rightPaddle.getSize().x / 2 - radius, ball.getPosition().y);
+		currentSpeed += 75;
 	}
 }
 
