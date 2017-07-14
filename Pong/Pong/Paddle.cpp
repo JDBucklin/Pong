@@ -14,9 +14,15 @@ void Paddle::update(float deltaTime, float windowHeight)
 {
 	if (sf::Keyboard().isKeyPressed(sf::Keyboard().Up)) {
 		paddle.move(0.f, deltaTime * paddleSpeed);
+		if (paddle.getPosition().y + halfPaddleHeight > windowHeight) {
+			paddle.setPosition(paddle.getPosition().x, windowHeight - halfPaddleHeight);
+		}
 	}
 	if (sf::Keyboard().isKeyPressed(sf::Keyboard().Down)) {
 		paddle.move(0.f, deltaTime * -paddleSpeed);
+		if (paddle.getPosition().y - halfPaddleHeight < 0) {
+			paddle.setPosition(paddle.getPosition().x,  halfPaddleHeight);
+		}
 	}
 }
 

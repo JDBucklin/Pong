@@ -13,6 +13,7 @@ private:
 	sf::RectangleShape paddle;
 	int paddleWidth = 30;
 	int paddleHeight = 100;
+	int halfPaddleHeight = 50;
 	float paddleSpeed = 300;
 };
 
