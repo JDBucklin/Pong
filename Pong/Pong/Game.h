@@ -16,6 +16,7 @@ private:
 	int windowHeight = 400;
 	int windowWidth = 800;
 	float switchTime = 1.f / 60.f;
+	bool isPlaying = false;
 
 	//Game objects
 	sf::RenderWindow window;
