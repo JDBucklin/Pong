@@ -11,10 +11,12 @@ public:
 	~Game();
 	void play();
 	void checkIfScored();
+	void checkForWinner(float xPos);
 private:
 	//Game variables
 	int windowHeight = 400;
 	int windowWidth = 800;
+	int maxScore = 3;
 	float switchTime = 1.f / 60.f;
 	bool isPlaying = false;
 

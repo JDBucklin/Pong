@@ -5,6 +5,7 @@
 Game::Game() :
 	window(sf::VideoMode(windowWidth, windowHeight), "Pong"),
 	ball(windowWidth / 2, windowHeight / 2),
+	scoreBoard(windowWidth / 2),
 	leftPaddle(25, windowHeight/2),
 	rightPaddle(775, windowHeight/2)
 {}
@@ -15,14 +16,23 @@ Game::~Game()
 void Game::checkIfScored()
 {
 	if (ball.isOutLeft()) {
-		scoreBoard.increaseLeft();
-		ball.resetBall(windowWidth / 2, windowHeight / 2);
+		scoreBoard.increaseRight();
+		ball.resetBall(windowWidth / 2.f, windowHeight / 2.f);
 		isPlaying = false;
+		scoreBoard.update(windowWidth / 2.f);
 	}
 	else if (ball.isOutRight(windowWidth)) {
-		scoreBoard.increstRight();
-		ball.resetBall(windowWidth / 2, windowHeight / 2);
+		scoreBoard.increaseLeft();
+		ball.resetBall(windowWidth / 2.f, windowHeight / 2.f);
 		isPlaying = false;
+		scoreBoard.update(windowWidth / 2.f);
+	}
+}
+
+void Game::checkForWinner(float xPos)
+{
+	if (scoreBoard.getLeftScore() >= maxScore || scoreBoard.getRightScore() >= maxScore) {
+		scoreBoard.displayWinner(xPos);
 	}
 }
 
@@ -58,12 +68,14 @@ void Game::play()
 			if (isPlaying) {
 				ball.updatePosition(totalTime, windowHeight, leftPaddle, rightPaddle);
 				checkIfScored();
+				checkForWinner(windowWidth / 2.f);
 			}
 			totalTime -= switchTime;
 		}
 		
 		// draw objects
 		window.clear();
+		scoreBoard.draw(window);
 		leftPaddle.draw(window);
 		rightPaddle.draw(window);
 		ball.draw(window);

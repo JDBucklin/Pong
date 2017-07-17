@@ -4,7 +4,6 @@ const float PI = 3.1415926535897f;
 
 Ball::Ball(float xPos, float yPos)
 {
-	std::srand((unsigned int)time(NULL));
 	radius = 15.f;
 	defaultSpeed = 300.f;
 	currentSpeed = defaultSpeed;
