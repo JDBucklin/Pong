@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include "Ball.h"
 
+/**
+ *	Constructor
+ */
 Game::Game() :
 	window(sf::VideoMode(windowWidth, windowHeight), "Pong"),
 	ball(windowWidth / 2, windowHeight / 2),
@@ -13,6 +16,10 @@ Game::Game() :
 Game::~Game()
 {}
 
+/**
+ *	Check if either of the players has scored. If so, increment their score
+ *	and reposition the ball to the center of the screen.
+ */
 void Game::checkIfScored()
 {
 	if (ball.isOutLeft()) {
@@ -29,13 +36,20 @@ void Game::checkIfScored()
 	}
 }
 
-void Game::checkForWinner(float xPos)
+/**
+ *	Checks if one of the players has scored more than the max # of points. 
+ *	If there is a winner the scoreboard displays the winner.
+ */
+void Game::checkForWinner()
 {
 	if (scoreBoard.getLeftScore() >= maxScore || scoreBoard.getRightScore() >= maxScore) {
-		scoreBoard.displayWinner(xPos);
+		scoreBoard.displayWinner(windowWidth / 2);
 	}
 }
 
+/**
+ *	The main game loop
+ */
 void Game::play()
 {
 	sf::Clock clock;
@@ -68,7 +82,7 @@ void Game::play()
 			if (isPlaying) {
 				ball.updatePosition(totalTime, windowHeight, leftPaddle, rightPaddle);
 				checkIfScored();
-				checkForWinner(windowWidth / 2.f);
+				checkForWinner();
 			}
 			totalTime -= switchTime;
 		}

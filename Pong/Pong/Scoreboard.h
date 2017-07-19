@@ -16,7 +16,6 @@ public:
 private:
 	int leftScore;
 	int rightScore;
-	bool fontLoaded;
 	sf::Font font;
 	sf::Text text;
 };

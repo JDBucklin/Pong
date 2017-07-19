@@ -11,7 +11,7 @@ public:
 	~Game();
 	void play();
 	void checkIfScored();
-	void checkForWinner(float xPos);
+	void checkForWinner();
 private:
 	//Game variables
 	int windowHeight = 400;

@@ -2,14 +2,17 @@
 #include <string>
 #include <iostream>
 
+/**
+ *	Constructor
+ *	
+ *	@param xPos the x position to place the scoreboard
+ */
 Scoreboard::Scoreboard(float xPos) :leftScore(0), rightScore(0)
 {
 	if (!font.loadFromFile("cour.ttf")) {
-		fontLoaded = false;
 		std::cout << "Error: Failed to load scoreboard font" << std::endl;
 	}
 	else {
-		fontLoaded = true;
 		text.setFont(font);
 		text.setCharacterSize(80);
 		text.setFillColor(sf::Color::White);
@@ -20,26 +23,45 @@ Scoreboard::Scoreboard(float xPos) :leftScore(0), rightScore(0)
 Scoreboard::~Scoreboard()
 {}
 
+/**
+ *	Increase the left player score by one
+ */
 void Scoreboard::increaseLeft()
 {
 	leftScore++;
 }
 
+/**
+ *	Increase the right player score by one
+ */
 void Scoreboard::increaseRight()
 {
 	rightScore++;
 }
 
+/**
+ *	Get the left player's score
+ *	
+ *	@return the left player's score
+ */
 int Scoreboard::getLeftScore()
 {
 	return leftScore;
 }
 
+/**
+ *	Get the right player's score
+ *	
+ *	@return the right player's score
+ */
 int Scoreboard::getRightScore()
 {
 	return rightScore;
 }
 
+/**
+ *	Display the winner of the game
+ */
 void Scoreboard::displayWinner(float xPos)
 {
 	if (leftScore > rightScore) {
@@ -53,6 +75,10 @@ void Scoreboard::displayWinner(float xPos)
 	text.setPosition(xPos, 0.f);
 }
 
+/**
+ *	Update the scoreboard
+ *	@param xPos the x position to draw the window at
+ */
 void Scoreboard::update(float xPos) {
 	std::string currentScore = std::to_string(leftScore) + "\t" + std::to_string(rightScore);
 	text.setString(currentScore);
@@ -60,10 +86,12 @@ void Scoreboard::update(float xPos) {
 	text.setPosition(xPos, 0.f);
 }
 
+/**
+ *	Draw the scoreboard to the given window
+ *	
+ *	@param window the window the draw the scoreboard in
+ */
 void Scoreboard::draw(sf::RenderWindow & window)
 {
-	if (!fontLoaded) {
-		return;
-	}
 	window.draw(text);
 }
